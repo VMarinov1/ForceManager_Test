@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2257B3401CE906870035F0C7 /* ElementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2257B33F1CE906870035F0C7 /* ElementViewController.m */; };
+		2257B3441CE906EC0035F0C7 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2257B3431CE906EC0035F0C7 /* MapViewController.m */; };
 		22967A641CE669E000C2E3AE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A631CE669E000C2E3AE /* main.m */; };
 		22967A671CE669E000C2E3AE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A661CE669E000C2E3AE /* AppDelegate.m */; };
 		22967A6A1CE669E000C2E3AE /* ElementsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A691CE669E000C2E3AE /* ElementsTableViewController.m */; };
@@ -19,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2257B33E1CE906870035F0C7 /* ElementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElementViewController.h; sourceTree = "<group>"; };
+		2257B33F1CE906870035F0C7 /* ElementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElementViewController.m; sourceTree = "<group>"; };
+		2257B3421CE906EC0035F0C7 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		2257B3431CE906EC0035F0C7 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		22967A5F1CE669E000C2E3AE /* ForceManager_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForceManager_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22967A631CE669E000C2E3AE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22967A651CE669E000C2E3AE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -48,11 +54,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2257B3411CE906960035F0C7 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				22967A6B1CE669E000C2E3AE /* Main.storyboard */,
+				22967A6E1CE669E000C2E3AE /* Assets.xcassets */,
+				22967A701CE669E000C2E3AE /* LaunchScreen.storyboard */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
 		22967A561CE669E000C2E3AE = {
 			isa = PBXGroup;
 			children = (
-				22967A801CE844B800C2E3AE /* CoreLocation.framework */,
-				22967A7E1CE8449000C2E3AE /* MapKit.framework */,
 				22967A611CE669E000C2E3AE /* ForceManager_Test */,
 				22967A601CE669E000C2E3AE /* Products */,
 			);
@@ -69,13 +83,11 @@
 		22967A611CE669E000C2E3AE /* ForceManager_Test */ = {
 			isa = PBXGroup;
 			children = (
+				2257B3411CE906960035F0C7 /* Assets */,
 				22967A7D1CE66E5E00C2E3AE /* Controllers */,
 				22967A791CE669EE00C2E3AE /* Models */,
 				22967A651CE669E000C2E3AE /* AppDelegate.h */,
 				22967A661CE669E000C2E3AE /* AppDelegate.m */,
-				22967A6B1CE669E000C2E3AE /* Main.storyboard */,
-				22967A6E1CE669E000C2E3AE /* Assets.xcassets */,
-				22967A701CE669E000C2E3AE /* LaunchScreen.storyboard */,
 				22967A731CE669E000C2E3AE /* Info.plist */,
 				22967A621CE669E000C2E3AE /* Supporting Files */,
 			);
@@ -85,6 +97,8 @@
 		22967A621CE669E000C2E3AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22967A801CE844B800C2E3AE /* CoreLocation.framework */,
+				22967A7E1CE8449000C2E3AE /* MapKit.framework */,
 				22967A631CE669E000C2E3AE /* main.m */,
 			);
 			name = "Supporting Files";
@@ -104,6 +118,10 @@
 			children = (
 				22967A681CE669E000C2E3AE /* ElementsTableViewController.h */,
 				22967A691CE669E000C2E3AE /* ElementsTableViewController.m */,
+				2257B33E1CE906870035F0C7 /* ElementViewController.h */,
+				2257B33F1CE906870035F0C7 /* ElementViewController.m */,
+				2257B3421CE906EC0035F0C7 /* MapViewController.h */,
+				2257B3431CE906EC0035F0C7 /* MapViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -186,6 +204,8 @@
 				22967A6A1CE669E000C2E3AE /* ElementsTableViewController.m in Sources */,
 				22967A671CE669E000C2E3AE /* AppDelegate.m in Sources */,
 				22967A641CE669E000C2E3AE /* main.m in Sources */,
+				2257B3441CE906EC0035F0C7 /* MapViewController.m in Sources */,
+				2257B3401CE906870035F0C7 /* ElementViewController.m in Sources */,
 				22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
