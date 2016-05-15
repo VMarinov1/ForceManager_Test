@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		22967A641CE669E000C2E3AE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A631CE669E000C2E3AE /* main.m */; };
 		22967A671CE669E000C2E3AE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A661CE669E000C2E3AE /* AppDelegate.m */; };
-		22967A6A1CE669E000C2E3AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A691CE669E000C2E3AE /* ViewController.m */; };
+		22967A6A1CE669E000C2E3AE /* ElementsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A691CE669E000C2E3AE /* ElementsTableViewController.m */; };
 		22967A6D1CE669E000C2E3AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22967A6B1CE669E000C2E3AE /* Main.storyboard */; };
 		22967A6F1CE669E000C2E3AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22967A6E1CE669E000C2E3AE /* Assets.xcassets */; };
 		22967A721CE669E000C2E3AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22967A701CE669E000C2E3AE /* LaunchScreen.storyboard */; };
+		22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */; };
+		22967A7F1CE8449000C2E3AE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22967A7E1CE8449000C2E3AE /* MapKit.framework */; };
+		22967A811CE844B800C2E3AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22967A801CE844B800C2E3AE /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +23,16 @@
 		22967A631CE669E000C2E3AE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22967A651CE669E000C2E3AE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22967A661CE669E000C2E3AE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		22967A681CE669E000C2E3AE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		22967A691CE669E000C2E3AE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		22967A681CE669E000C2E3AE /* ElementsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ElementsTableViewController.h; sourceTree = "<group>"; };
+		22967A691CE669E000C2E3AE /* ElementsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ElementsTableViewController.m; sourceTree = "<group>"; };
 		22967A6C1CE669E000C2E3AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22967A6E1CE669E000C2E3AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22967A711CE669E000C2E3AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22967A731CE669E000C2E3AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22967A7A1CE66A1800C2E3AE /* GeolocatedElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeolocatedElement.h; sourceTree = "<group>"; };
+		22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeolocatedElement.m; sourceTree = "<group>"; };
+		22967A7E1CE8449000C2E3AE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		22967A801CE844B800C2E3AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +40,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22967A811CE844B800C2E3AE /* CoreLocation.framework in Frameworks */,
+				22967A7F1CE8449000C2E3AE /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,8 @@
 		22967A561CE669E000C2E3AE = {
 			isa = PBXGroup;
 			children = (
+				22967A801CE844B800C2E3AE /* CoreLocation.framework */,
+				22967A7E1CE8449000C2E3AE /* MapKit.framework */,
 				22967A611CE669E000C2E3AE /* ForceManager_Test */,
 				22967A601CE669E000C2E3AE /* Products */,
 			);
@@ -58,10 +69,10 @@
 		22967A611CE669E000C2E3AE /* ForceManager_Test */ = {
 			isa = PBXGroup;
 			children = (
+				22967A7D1CE66E5E00C2E3AE /* Controllers */,
+				22967A791CE669EE00C2E3AE /* Models */,
 				22967A651CE669E000C2E3AE /* AppDelegate.h */,
 				22967A661CE669E000C2E3AE /* AppDelegate.m */,
-				22967A681CE669E000C2E3AE /* ViewController.h */,
-				22967A691CE669E000C2E3AE /* ViewController.m */,
 				22967A6B1CE669E000C2E3AE /* Main.storyboard */,
 				22967A6E1CE669E000C2E3AE /* Assets.xcassets */,
 				22967A701CE669E000C2E3AE /* LaunchScreen.storyboard */,
@@ -77,6 +88,24 @@
 				22967A631CE669E000C2E3AE /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		22967A791CE669EE00C2E3AE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				22967A7A1CE66A1800C2E3AE /* GeolocatedElement.h */,
+				22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		22967A7D1CE66E5E00C2E3AE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				22967A681CE669E000C2E3AE /* ElementsTableViewController.h */,
+				22967A691CE669E000C2E3AE /* ElementsTableViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,6 +139,11 @@
 				TargetAttributes = {
 					22967A5E1CE669E000C2E3AE = {
 						CreatedOnToolsVersion = 7.3;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -149,9 +183,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22967A6A1CE669E000C2E3AE /* ViewController.m in Sources */,
+				22967A6A1CE669E000C2E3AE /* ElementsTableViewController.m in Sources */,
 				22967A671CE669E000C2E3AE /* AppDelegate.m in Sources */,
 				22967A641CE669E000C2E3AE /* main.m in Sources */,
+				22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +302,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Vladimir-Marinov.ForceManager-Test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -278,6 +314,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Vladimir-Marinov.ForceManager-Test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -300,6 +337,7 @@
 				22967A781CE669E000C2E3AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
