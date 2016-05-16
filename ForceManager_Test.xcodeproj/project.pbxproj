@@ -18,6 +18,7 @@
 		22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */; };
 		22967A7F1CE8449000C2E3AE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22967A7E1CE8449000C2E3AE /* MapKit.framework */; };
 		22967A811CE844B800C2E3AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22967A801CE844B800C2E3AE /* CoreLocation.framework */; };
+		22D9A9D31CEA044E006C3AFB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D9A9D21CEA044E006C3AFB /* Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,9 @@
 		22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeolocatedElement.m; sourceTree = "<group>"; };
 		22967A7E1CE8449000C2E3AE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		22967A801CE844B800C2E3AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		22D9A9D01CE9FB4F006C3AFB /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		22D9A9D11CEA044D006C3AFB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		22D9A9D21CEA044E006C3AFB /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,9 @@
 		22967A611CE669E000C2E3AE /* ForceManager_Test */ = {
 			isa = PBXGroup;
 			children = (
+				22D9A9D11CEA044D006C3AFB /* Utilities.h */,
+				22D9A9D21CEA044E006C3AFB /* Utilities.m */,
+				22D9A9D01CE9FB4F006C3AFB /* Constants.h */,
 				2257B3411CE906960035F0C7 /* Assets */,
 				22967A7D1CE66E5E00C2E3AE /* Controllers */,
 				22967A791CE669EE00C2E3AE /* Models */,
@@ -206,6 +213,7 @@
 				22967A641CE669E000C2E3AE /* main.m in Sources */,
 				2257B3441CE906EC0035F0C7 /* MapViewController.m in Sources */,
 				2257B3401CE906870035F0C7 /* ElementViewController.m in Sources */,
+				22D9A9D31CEA044E006C3AFB /* Utilities.m in Sources */,
 				22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
