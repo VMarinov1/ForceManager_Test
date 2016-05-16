@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, strong) GeolocatedElement *selectedElement;
+@property (nonatomic, strong) UITextField *titleField;
 
 - (NSString*)textForDistance:(double)distance forElement:(GeolocatedElement*)element;
 - (void)loadInitialData;
@@ -61,6 +62,12 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewElement)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStylePlain target:self action:@selector(viewMap)];
     self.locationManagerIsStarted = NO;
+    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+    [self.titleField setFont:[UIFont boldSystemFontOfSize: 10]];
+    [self.titleField setTextAlignment: NSTextAlignmentCenter];
+    [self.titleField setBorderStyle:UITextBorderStyleRoundedRect];
+    [self.titleField setEnabled:NO];
+    self.navigationItem.titleView = self.titleField;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -111,14 +118,10 @@
                                            selector:@selector(updatePostions:) userInfo:nil repeats:YES];
 }
 
-/*
-- (void)
- 
- - stop time
- - stop location services
- */
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    [self.refreshTimer invalidate];
+    [self.locationManager stopUpdatingLocation];
     // Dispose of any resources that can be recreated.
 }
 #pragma mark-MainActions
@@ -150,7 +153,7 @@
     if(self.locationManagerIsStarted == YES && [self.elements count] > 0){
       [self.tableView reloadData];
         NSString *title = [NSString stringWithFormat:@"Lat %f, Long %f", self.currentLocation.coordinate.latitude, self.currentLocation.coordinate.longitude];
-        [self setTitle:title];
+        [self.titleField setText:title];
     }
     
 }
@@ -182,7 +185,9 @@
  * @param error Error description
  */
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    [Utilities showErrorMessage:@"Location Service Failed" withError:error withSender:self];
+    if(self.locationManagerIsStarted == YES){
+        [Utilities showErrorMessage:@"Location Service Failed" withError:error withSender:self];
+    }
     self.locationManagerIsStarted = NO;
 }
 /*!
@@ -218,7 +223,8 @@
     element.distanceFromUser = [element.location distanceFromLocation:self.currentLocation];
     NSString *nameTitle = [self textForDistance: element.distanceFromUser forElement:element];
     [cell.textLabel setText:nameTitle];
-    [cell.detailTextLabel setText:element.textDescription];
+    NSString *descText = [NSString stringWithFormat:@"%@(%@)",element.textDescription, element.type ];
+    [cell.detailTextLabel setText:descText];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
 }

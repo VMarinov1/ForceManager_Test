@@ -56,18 +56,19 @@
     MKCoordinateRegion region;
     region.span = span;
     region.center = self.element.location.coordinate;
-    [self.mapView  setRegion:region animated:TRUE];
-    [self.mapView  regionThatFits:region];
+    [self.mapView setRegion:region animated:TRUE];
+    [self.mapView regionThatFits:region];
     
     [self.nameField setText:self.element.name];
     [self.descriptionField setText:self.element.textDescription];
     [self setTitle:self.element.name];
-   
+    
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self loadElementTypes];
     [self.navigationItem.rightBarButtonItem setEnabled:[self viewIsValid]];
+    [self.nameField becomeFirstResponder];
 }
 
 #pragma mark- Actions
