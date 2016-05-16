@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "ElementViewController.h"
 
-@interface ElementsTableViewController : UITableViewController<CLLocationManagerDelegate>
 
+@interface ElementsTableViewController : UITableViewController<CLLocationManagerDelegate, ElementViewControllerDelegate>
 
 
 @end

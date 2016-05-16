@@ -7,8 +7,16 @@
 //
 
 #import "GeolocatedElement.h"
+#import "Utilities.h"
 
 @implementation GeolocatedElement
 
+- (GeolocatedElement*)init{
+    if(self = [super init]){
+        _mId = [Utilities getUuid];
+        return self;
+    }
+    return nil;
+}
 
 @end

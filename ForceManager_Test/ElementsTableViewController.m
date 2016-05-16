@@ -8,11 +8,11 @@
 
 #import "ElementsTableViewController.h"
 #import "GeolocatedElement.h"
+#import "MapViewController.h"
+#import "ElementViewController.h"
+#import "Constants.h"
+#import "Utilities.h"
 
-
-#define CELL_INDENT @"MyIdentifier"
-#define ELEMENT_SEGUE @"ElementSegue"
-#define VIEW_MAP_SEGUE @"ViewMapSegue"
 
 
 @interface ElementsTableViewController ()
@@ -22,19 +22,33 @@
 @property (nonatomic, assign) BOOL locationManagerIsStarted;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) GeolocatedElement *selectedElement;
+
+- (NSString*)textForDistance:(double)distance forElement:(GeolocatedElement*)element;
+- (void)loadInitialData;
+- (void)startLocationManager;
+- (void)addNewElement;
+- (void)viewMap;
+- (void)viewDetailsForElement:(GeolocatedElement*)element;
+- (void)updatePostions:(id)sender;
+- (void)refresh:(id)sender;
+- (void)didSaveElement:(GeolocatedElement*)element;
+
 @end
 
 @implementation ElementsTableViewController
 
+/*!
+ * @discussion Load initial/dummy data
+ */
 - (void)loadInitialData{
     
     GeolocatedElement *home = [[GeolocatedElement alloc] init];
     home.name = @"Vladimir's Home";
     home.creationDate = [NSDate date];
-    home.type = @"Square";
+    home.type = @"Business office";
     home.textDescription = @"Vladimir's Square";
     home.location = [[CLLocation alloc] initWithLatitude:42.666903 longitude:23.282132];
-    
     
     GeolocatedElement *barcelona = [[GeolocatedElement alloc] init];
     barcelona.name = @"Barcelona";
@@ -42,12 +56,13 @@
     barcelona.creationDate = [NSDate date];
     barcelona.type = @"Square";
     barcelona.location = [[CLLocation alloc] initWithLatitude:41.38506389 longitude:2.076416];
-    self.elements = [[NSMutableArray alloc] initWithObjects:home, barcelona, nil];
     
+    self.elements = [[NSMutableArray alloc] initWithObjects:home, barcelona, nil];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewElement)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"map" style:UIBarButtonItemStylePlain target:self action:@selector(viewMap)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStylePlain target:self action:@selector(viewMap)];
     self.locationManagerIsStarted = NO;
 }
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self startLocationManager];
@@ -56,6 +71,21 @@
     }
     
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString: VIEW_MAP_SEGUE] == YES){
+        MapViewController *contrl = (MapViewController*)segue.destinationViewController;
+        contrl.elements = self.elements;
+    }
+    else if([segue.identifier isEqualToString: ELEMENT_SEGUE] == YES){
+        ElementViewController *contrl = (ElementViewController*)segue.destinationViewController;
+        contrl.element = self.selectedElement;
+        contrl.delegate = self;
+    }
+}
+/*!
+ * @discussion Start Location Service if NOT started yet
+ */
 - (void)startLocationManager{
     if(self.locationManager == nil){
         self.locationManager = [[CLLocationManager alloc] init];
@@ -70,13 +100,14 @@
         self.locationManagerIsStarted = YES;
     }
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadInitialData];
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
-    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self
+    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:REFRESH_TIME target:self
                                            selector:@selector(updatePostions:) userInfo:nil repeats:YES];
 }
 
@@ -92,15 +123,29 @@
 }
 #pragma mark-MainActions
 - (void)addNewElement{
+    self.selectedElement = [[GeolocatedElement alloc] init];
+    self.selectedElement.location = self.currentLocation;
     [self performSegueWithIdentifier:ELEMENT_SEGUE sender:self];
 }
+/*!
+ * @discussion Switch to Map View
+ */
 - (void)viewMap{
     [self performSegueWithIdentifier:VIEW_MAP_SEGUE sender:self];
 }
+/*!
+ * @discussion Switch to Element's details view
+ * @param element Selected element
+ */
 - (void)viewDetailsForElement:(GeolocatedElement*)element{
+    self.selectedElement = element;
     [self performSegueWithIdentifier:ELEMENT_SEGUE sender:self];
 }
 #pragma mark-
+/*!
+ * @discussion Caller from Timer to update list in TableView
+ * @param sender Timer
+ */
 - (void)updatePostions:(id)sender{
     if(self.locationManagerIsStarted == YES && [self.elements count] > 0){
       [self.tableView reloadData];
@@ -109,37 +154,60 @@
     }
     
 }
-
+/*!
+ * @discussion Refresh List by Refresh Control
+ * @param sender Refresh Control
+ */
 - (void)refresh:(id)sender{
      [self.tableView reloadData];
      [(UIRefreshControl *)sender endRefreshing];
 }
 #pragma mark- CLLocationManagerDelegate
 
+/*!
+ * @discussion Called when location is updated
+ * @param manager Location Manager
+ * @return locations Updated locations
+ */
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    // recalculate the location
     if([locations count] > 0){
         self.currentLocation = [locations objectAtIndex:0];
         self.locationManagerIsStarted = YES;
     }
 }
+
+/*!
+ * @discussion Called on location service Failed
+ * @param manager Location Manager
+ * @param error Error description
+ */
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSString *errorText = [NSString stringWithFormat:@"Error code: %ld", (long)error.code ];
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Location Service Failed"
-                                                                   message:errorText
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    [Utilities showErrorMessage:@"Location Service Failed" withError:error withSender:self];
     self.locationManagerIsStarted = NO;
 }
-
+/*!
+ * @discussion Return text for actual distance
+ * @param distance
+ * @return element
+ */
+- (NSString*)textForDistance:(double)distance forElement:(GeolocatedElement*)element{
+    NSString *distanceString = @"";
+    if(distance >= 0){
+        if(distance < METERS_CUT_OFF){
+            distanceString = [NSString stringWithFormat:@"(%.01f m.)", distance];
+        }
+        else {
+            distanceString = [NSString stringWithFormat:@"(%.01f km.)", (distance/METERS_CUT_OFF)];
+        }
+    }
+    return [element.name stringByAppendingString:distanceString];
+}
 #pragma mark- UITableViewDataSource & UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
     return [self.elements count];
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_INDENT];
@@ -148,22 +216,49 @@
     }
     GeolocatedElement *element = [self.elements objectAtIndex:indexPath.row];
     element.distanceFromUser = [element.location distanceFromLocation:self.currentLocation];
-    NSString *nameTitle = [NSString stringWithFormat:@"%@(%.02f meters)", element.name, element.distanceFromUser ];
+    NSString *nameTitle = [self textForDistance: element.distanceFromUser forElement:element];
     [cell.textLabel setText:nameTitle];
     [cell.detailTextLabel setText:element.textDescription];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     GeolocatedElement *element = [self.elements objectAtIndex:indexPath.row];
     [self viewDetailsForElement:element];
 }
+
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     GeolocatedElement *element = [self.elements objectAtIndex:indexPath.row];
     [self viewDetailsForElement:element];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.elements removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+#pragma mark-ElementViewControllerDelegate
+/*!
+ * @discussion Called from delegate when Element is Saved
+ * @param element Element to save
+ */
+- (void)didSaveElement:(GeolocatedElement*)element{
+    NSUInteger index = [self.elements indexOfObjectPassingTest:^BOOL(GeolocatedElement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [obj.mId isEqualToString:element.mId];
+    }];
+    if(index != NSNotFound){
+        [self.elements replaceObjectAtIndex:index withObject:element];
+    }
+    else {
+        [self.elements addObject:element];
+    }
+    [self.tableView reloadData];
+
+}
 
 @end

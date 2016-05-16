@@ -13,6 +13,7 @@
 @interface GeolocatedElement : NSObject
 
 @property (nonatomic, strong, nonnull) NSString *name;
+@property (nonatomic, strong, nonnull) NSString *mId;
 @property (nonatomic, strong, nullable) NSString *textDescription;
 @property (nonatomic, strong, nonnull) NSDate *creationDate;
 @property (nonatomic, strong, nonnull) NSString *type;
