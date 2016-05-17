@@ -25,5 +25,8 @@
 #define DESCRIPTION_FIELD_TAG 300
 
 #define METERS_CUT_OFF 1000
+
+#define DATABASE_FILE_NAME @"forcem_vmarinov.sql"
+
 #endif /* Constants_h */
 

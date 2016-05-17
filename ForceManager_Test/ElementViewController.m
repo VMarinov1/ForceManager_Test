@@ -21,6 +21,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *typeField;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadTypesActivityView;
 @property (nonatomic, weak) IBOutlet UIPickerView *typesPicker;
+@property (nonatomic) BOOL anotationIsLoaded;
 
 //
 @property (nonatomic, strong) NSArray *typesArray;
@@ -44,34 +45,52 @@
     [self.typesPicker setHidden:YES];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveElement)];
-    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-    point.coordinate = self.element.location.coordinate;
-    point.title = self.element.name;
-    point.subtitle = self.element.textDescription;
-    [self.mapView addAnnotation:point];
-    // center region
-    MKCoordinateSpan span;
-    span.latitudeDelta = 0.2;     // 0.0 is min value u van provide for zooming
-    span.longitudeDelta= 0.2;
-    MKCoordinateRegion region;
-    region.span = span;
-    region.center = self.element.location.coordinate;
-    [self.mapView setRegion:region animated:TRUE];
-    [self.mapView regionThatFits:region];
-    
+    self.mapView.delegate = self;
+     
     [self.nameField setText:self.element.name];
     [self.descriptionField setText:self.element.textDescription];
     [self setTitle:self.element.name];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnView:)];
+    [self.view addGestureRecognizer:tapRecognizer];
     
 }
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self loadElementTypes];
     [self.navigationItem.rightBarButtonItem setEnabled:[self viewIsValid]];
-    [self.nameField becomeFirstResponder];
+}
+#pragma mark-MKMapViewDelegate
+
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
+    if(self.anotationIsLoaded == NO){
+        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        annotation.coordinate = self.element.location.coordinate;
+        annotation.title = self.element.name;
+        annotation.subtitle = self.element.textDescription;
+        [self.mapView addAnnotation:annotation];
+        // center region
+        MKCoordinateSpan span;
+        span.latitudeDelta = 1.2;
+        span.longitudeDelta = 1.2;
+        MKCoordinateRegion region;
+        region.span = span;
+        region.center = self.element.location.coordinate;
+        [self.mapView setRegion:region animated:TRUE];
+        [self.mapView regionThatFits:region];
+        [self.mapView addAnnotation:annotation];
+        self.anotationIsLoaded = YES;
+    }
 }
 
 #pragma mark- Actions
+/*!
+ * @discussion Handle tap on view to hide keyboard
+ * @param data Received from URL
+ */
+- (void)tapOnView:(id)sender{
+    [self.view endEditing:YES];
+}
 /*!
  * @discussion Check if view is valid and can be saved
  * @return YES if Element can be saved

@@ -12,7 +12,7 @@
 #import "ElementViewController.h"
 #import "Constants.h"
 #import "Utilities.h"
-
+#import "DatabaseManager.h"
 
 
 @interface ElementsTableViewController ()
@@ -45,10 +45,10 @@
 - (void)loadInitialData{
     
     GeolocatedElement *home = [[GeolocatedElement alloc] init];
-    home.name = @"Vladimir's Home";
+    home.name = @"Vladimir Marinov";
     home.creationDate = [NSDate date];
     home.type = @"Business office";
-    home.textDescription = @"Vladimir's Square";
+    home.textDescription = @"Vladimir's Home";
     home.location = [[CLLocation alloc] initWithLatitude:42.666903 longitude:23.282132];
     
     GeolocatedElement *barcelona = [[GeolocatedElement alloc] init];
@@ -58,16 +58,13 @@
     barcelona.type = @"Square";
     barcelona.location = [[CLLocation alloc] initWithLatitude:41.38506389 longitude:2.076416];
     
-    self.elements = [[NSMutableArray alloc] initWithObjects:home, barcelona, nil];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewElement)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStylePlain target:self action:@selector(viewMap)];
-    self.locationManagerIsStarted = NO;
-    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    [self.titleField setFont:[UIFont boldSystemFontOfSize: 10]];
-    [self.titleField setTextAlignment: NSTextAlignmentCenter];
-    [self.titleField setBorderStyle:UITextBorderStyleRoundedRect];
-    [self.titleField setEnabled:NO];
-    self.navigationItem.titleView = self.titleField;
+    self.elements = [[NSMutableArray alloc] initWithArray: [[DatabaseManager DBInstance] loadAllElements]];
+    if([self.elements count] == 0){
+        barcelona.mId =  [[DatabaseManager DBInstance] insertElement:barcelona];
+        home.mId = [[DatabaseManager DBInstance] insertElement:home];
+        self.elements = [[NSMutableArray alloc] initWithArray: @[home, barcelona]];
+    }
+   
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -111,6 +108,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadInitialData];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewElement)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStylePlain target:self action:@selector(viewMap)];
+    self.locationManagerIsStarted = NO;
+    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 150, 30)];
+    [self.titleField setFont:[UIFont boldSystemFontOfSize: 10]];
+    [self.titleField setTextAlignment: NSTextAlignmentCenter];
+    [self.titleField setBorderStyle:UITextBorderStyleRoundedRect];
+    [self.titleField setEnabled:NO];
+    self.navigationItem.titleView = self.titleField;
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
@@ -189,6 +195,7 @@
         [Utilities showErrorMessage:@"Location Service Failed" withError:error withSender:self];
     }
     self.locationManagerIsStarted = NO;
+    [self.titleField setText:@"Location Service Failed"];
 }
 /*!
  * @discussion Return text for actual distance
@@ -207,7 +214,9 @@
     }
     return [element.name stringByAppendingString:distanceString];
 }
+
 #pragma mark- UITableViewDataSource & UITableViewDelegate
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
     return [self.elements count];
@@ -220,8 +229,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CELL_INDENT];
     }
     GeolocatedElement *element = [self.elements objectAtIndex:indexPath.row];
-    element.distanceFromUser = [element.location distanceFromLocation:self.currentLocation];
-    NSString *nameTitle = [self textForDistance: element.distanceFromUser forElement:element];
+    element.distanceToUser = [element.location distanceFromLocation:self.currentLocation];
+    [[DatabaseManager DBInstance] updateElement:element];
+    NSString *nameTitle = [self textForDistance: element.distanceToUser forElement:element];
     [cell.textLabel setText:nameTitle];
     NSString *descText = [NSString stringWithFormat:@"%@(%@)",element.textDescription, element.type ];
     [cell.detailTextLabel setText:descText];
@@ -244,8 +254,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.elements removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        GeolocatedElement *element = [self.elements objectAtIndex:0];
+        if([[DatabaseManager DBInstance] deleteElement:element] == YES){
+            [self.elements removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
     }
 }
 #pragma mark-ElementViewControllerDelegate
@@ -255,13 +268,16 @@
  */
 - (void)didSaveElement:(GeolocatedElement*)element{
     NSUInteger index = [self.elements indexOfObjectPassingTest:^BOOL(GeolocatedElement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        return [obj.mId isEqualToString:element.mId];
+        return obj.mId == element.mId;
     }];
     if(index != NSNotFound){
         [self.elements replaceObjectAtIndex:index withObject:element];
+        [[DatabaseManager DBInstance] updateElement:element];
     }
     else {
+        element.mId = [[DatabaseManager DBInstance] insertElement:element];
         [self.elements addObject:element];
+        
     }
     [self.tableView reloadData];
 

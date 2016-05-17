@@ -18,6 +18,9 @@
 		22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */; };
 		22967A7F1CE8449000C2E3AE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22967A7E1CE8449000C2E3AE /* MapKit.framework */; };
 		22967A811CE844B800C2E3AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22967A801CE844B800C2E3AE /* CoreLocation.framework */; };
+		22C4C69E1CEB625D00D21FF4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 22C4C69D1CEB625D00D21FF4 /* libsqlite3.tbd */; };
+		22C4C6A21CEB657E00D21FF4 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4C6A11CEB657E00D21FF4 /* DatabaseManager.m */; };
+		22C4C6A41CEBA40700D21FF4 /* forcem_vmarinov.sql in Resources */ = {isa = PBXBuildFile; fileRef = 22C4C6A31CEB6E7E00D21FF4 /* forcem_vmarinov.sql */; };
 		22D9A9D31CEA044E006C3AFB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D9A9D21CEA044E006C3AFB /* Utilities.m */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +43,10 @@
 		22967A7B1CE66A1800C2E3AE /* GeolocatedElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeolocatedElement.m; sourceTree = "<group>"; };
 		22967A7E1CE8449000C2E3AE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		22967A801CE844B800C2E3AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		22C4C69D1CEB625D00D21FF4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		22C4C6A01CEB657E00D21FF4 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
+		22C4C6A11CEB657E00D21FF4 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
+		22C4C6A31CEB6E7E00D21FF4 /* forcem_vmarinov.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = forcem_vmarinov.sql; sourceTree = "<group>"; };
 		22D9A9D01CE9FB4F006C3AFB /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		22D9A9D11CEA044D006C3AFB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		22D9A9D21CEA044E006C3AFB /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
@@ -50,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22C4C69E1CEB625D00D21FF4 /* libsqlite3.tbd in Frameworks */,
 				22967A811CE844B800C2E3AE /* CoreLocation.framework in Frameworks */,
 				22967A7F1CE8449000C2E3AE /* MapKit.framework in Frameworks */,
 			);
@@ -61,6 +69,7 @@
 		2257B3411CE906960035F0C7 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				22C4C6A31CEB6E7E00D21FF4 /* forcem_vmarinov.sql */,
 				22967A6B1CE669E000C2E3AE /* Main.storyboard */,
 				22967A6E1CE669E000C2E3AE /* Assets.xcassets */,
 				22967A701CE669E000C2E3AE /* LaunchScreen.storyboard */,
@@ -90,6 +99,7 @@
 				22D9A9D11CEA044D006C3AFB /* Utilities.h */,
 				22D9A9D21CEA044E006C3AFB /* Utilities.m */,
 				22D9A9D01CE9FB4F006C3AFB /* Constants.h */,
+				22C4C69F1CEB649A00D21FF4 /* Database */,
 				2257B3411CE906960035F0C7 /* Assets */,
 				22967A7D1CE66E5E00C2E3AE /* Controllers */,
 				22967A791CE669EE00C2E3AE /* Models */,
@@ -104,6 +114,7 @@
 		22967A621CE669E000C2E3AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22C4C69D1CEB625D00D21FF4 /* libsqlite3.tbd */,
 				22967A801CE844B800C2E3AE /* CoreLocation.framework */,
 				22967A7E1CE8449000C2E3AE /* MapKit.framework */,
 				22967A631CE669E000C2E3AE /* main.m */,
@@ -131,6 +142,15 @@
 				2257B3431CE906EC0035F0C7 /* MapViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		22C4C69F1CEB649A00D21FF4 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				22C4C6A01CEB657E00D21FF4 /* DatabaseManager.h */,
+				22C4C6A11CEB657E00D21FF4 /* DatabaseManager.m */,
+			);
+			name = Database;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22C4C6A41CEBA40700D21FF4 /* forcem_vmarinov.sql in Resources */,
 				22967A721CE669E000C2E3AE /* LaunchScreen.storyboard in Resources */,
 				22967A6F1CE669E000C2E3AE /* Assets.xcassets in Resources */,
 				22967A6D1CE669E000C2E3AE /* Main.storyboard in Resources */,
@@ -212,6 +233,7 @@
 				22967A671CE669E000C2E3AE /* AppDelegate.m in Sources */,
 				22967A641CE669E000C2E3AE /* main.m in Sources */,
 				2257B3441CE906EC0035F0C7 /* MapViewController.m in Sources */,
+				22C4C6A21CEB657E00D21FF4 /* DatabaseManager.m in Sources */,
 				2257B3401CE906870035F0C7 /* ElementViewController.m in Sources */,
 				22D9A9D31CEA044E006C3AFB /* Utilities.m in Sources */,
 				22967A7C1CE66A1800C2E3AE /* GeolocatedElement.m in Sources */,

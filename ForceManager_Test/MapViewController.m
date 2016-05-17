@@ -13,23 +13,32 @@
 @interface MapViewController()
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
-
+@property (nonatomic) BOOL anotationIsLoaded;
 @end
 
 @implementation MapViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    for(GeolocatedElement *element in self.elements){
-        // Add an annotation
-        MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-        point.coordinate = element.location.coordinate;
-        point.title = element.name;
-        point.subtitle = element.textDescription;
-        [self.mapView addAnnotation:point];
+        self.mapView.delegate = self;
+    
+}
+#pragma mark-MKMapViewDelegate
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
+    if(self.anotationIsLoaded == NO){
+        NSMutableArray *anotationArray = [[NSMutableArray alloc] init];
+        for(GeolocatedElement *element in self.elements){
+            // Add an annotation
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            annotation.coordinate = element.location.coordinate;
+            annotation.title = element.name;
+            annotation.subtitle = element.textDescription;
+            [anotationArray addObject:annotation];
+            
+        }
+        [self.mapView showAnnotations:anotationArray animated:YES];
+        self.anotationIsLoaded = YES;
     }
 }
-
-
 
 @end
